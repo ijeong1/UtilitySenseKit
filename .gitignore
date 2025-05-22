@@ -1,10 +1,19 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
+# macOS
+.DS_Store
+Thumbs.db
+
 # dependencies
 node_modules/
+.yarn/
+.yarn-cache/
+.pnp/
+.pnp.js
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
 expo-env.d.ts
@@ -23,15 +32,106 @@ expo-env.d.ts
 
 # debug
 npm-debug.*
+npm-debug.log*
 yarn-debug.*
+yarn-debug.log*
 yarn-error.*
-
-# macOS
-.DS_Store
-*.pem
+yarn-error.log*
 
 # local env files
+.env
+.env.*
 .env*.local
 
 # typescript
 *.tsbuildinfo
+
+# Xcode / iOS
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+*.pbxlop
+*.xcworkspace/xcuserdata
+*.xcscmblueprint
+*.xctestplan
+!*.xcworkspace/
+!*.xcodeproj/project.pbxproj
+*.xcscheme
+xcshareddata/
+profile/
+/ios/build/
+/ios/Pods/
+/ios/.xcode.env.local
+
+# Android
+*.apk
+*.ap_
+*.aab
+*.aar
+*.dex
+*.iws
+*.iml
+*.ipr
+.gradle/
+/android/build/
+/android/.build/
+/android/.cxx/
+/android/.externalNativeBuild/
+/android/app/build/
+/android/app/.cxx/
+/android/app/.externalNativeBuild/
+/android/app/src/debug/
+/android/app/src/release/
+/android/app/src/androidTest/
+/android/app/src/test/
+/android/app/src/main/assets/
+/android/app/src/main/jniLibs/
+/android/app/src/main/libs/
+/android/app/src/main/obj/
+/android/app/src/main/gen/
+/android/app/src/main/resources/
+/android/app/src/main/shaders/
+/android/app/src/main/res/
+/android/app/src/main/kotlin/
+/android/app/src/main/java/
+/android/app/src/main/rs/
+/android/app/src/main/aidl/
+/android/app/src/main/ml/
+/android/app/src/main/proto/
+/android/app/src/main/renderscript/
+/android/app/src/main/protoBuf/
+/android/app/src/main/thrift/
+/android/app/src/main/java/
+/android/app/src/main/kotlin/
+/android/.gradle/
+/android/.idea/
+/android/captures/
+/android/gradle/
+/android/local.properties
+/android/key.properties
+/android/.DS_Store
+/android/.project
+/android/.settings/
+/android/.classpath
+
+# Node.js
+.parcel-cache/
+.eslintcache
+coverage/
+!.husky/
+
+# Other
+.vs/
+.idea/
+.vscode/
+*.log
+*.json.orig
+*.swp
+*.bak
+*.swo
+*.swn
+*.tmp
+*.patch
+*.orig
+*.pem
