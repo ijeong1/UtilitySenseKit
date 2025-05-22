@@ -19,7 +19,7 @@ A React Native mobile app built with Expo, offering a suite of utility tools inc
 ### Installation
 1. Clone the repository:
     ```sh
-    git clone <your-repo-url>
+    git clone https://github.com/ijeong1/UtilitySenseKit.git
     cd UtilitySenseKit
     ```
 2. Install dependencies:
