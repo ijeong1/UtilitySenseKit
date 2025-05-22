@@ -1,13 +1,13 @@
 # UtilitySenseKit
 
-A React Native mobile app built with Expo, providing utility tools such as Weather, WiFi, Bluetooth, and Barcode scanning in a single interface.
+A React Native mobile app built with Expo, offering a suite of utility tools including Weather, WiFi, Bluetooth, and Barcode scanning in a unified interface.
 
 ## Features
 
-- **Weather**: View current weather and forecast for your location.
-- **WiFi**: Scan and display nearby WiFi networks.
-- **Bluetooth**: Scan for nearby Bluetooth devices, connect, and view their services and characteristics (using `react-native-ble-plx`).
-- **Barcode Scanner**: Scan barcodes and maintain a history of the last 5 scans (using `react-native-camera-kit`).
+- **Weather**: Displays current weather and forecast for your location, powered by the [OpenWeatherMap API](https://openweathermap.org/api).
+- **WiFi**: Scans and lists nearby WiFi networks, and allows connecting to them (powered by [`react-native-wifi-reborn`](https://github.com/JuanSeBestia/react-native-wifi-reborn)).
+- **Bluetooth**: Scans for nearby Bluetooth devices, allows connection, and displays their services and characteristics (powered by `react-native-ble-plx`).
+- **Barcode Scanner**: Scans barcodes and keeps a history of the last 5 scans (using `react-native-camera-kit`).
 
 ## Getting Started
 
@@ -18,23 +18,47 @@ A React Native mobile app built with Expo, providing utility tools such as Weath
 
 ### Installation
 1. Clone the repository:
-   ```sh
-   git clone <your-repo-url>
-   cd UtilitySenseKit
-   ```
+    ```sh
+    git clone <your-repo-url>
+    cd UtilitySenseKit
+    ```
 2. Install dependencies:
-   ```sh
-   npm install
-   ```
+    ```sh
+    npm install
+    ```
 3. Install required native modules:
-   ```sh
-   npm install react-native-ble-plx react-native-camera-kit
-   ```
+    ```sh
+    npm install react-native-ble-plx react-native-camera-kit
+    ```
 4. For iOS, install CocoaPods:
-   ```sh
-   cd ios && pod install && cd ..
-   ```
+    ```sh
+    cd ios && pod install && cd ..
+    ```
+    <details>
+        <summary><strong>Optional: Clean, Add, and Reinstall Script</strong></summary>
 
+    This project includes a script, `clean_add_reinstall.sh`, to automate cleanup and reinstallation steps for a fresh setup.
+
+    #### How to Run
+
+    ```sh
+    ./clean_add_reinstall.sh
+    ```
+
+    If needed, make it executable:
+
+    ```sh
+    chmod +x clean_add_reinstall.sh
+    ```
+
+    #### What the Script Does
+
+    - Cleans up previous installations and related files.
+    - Installs required dependencies.
+    - Reinstalls the main application or package.
+
+    This script is helpful for resetting your environment or troubleshooting installation issues.
+    </details>
 ### Running the App
 - Start the Expo development server:
   ```sh
@@ -43,8 +67,8 @@ A React Native mobile app built with Expo, providing utility tools such as Weath
 - Use the Expo Go app or an emulator/simulator to run the app.
 
 ## Permissions
-- **Camera**: Required for barcode scanning.
-- **Bluetooth**: Required for Bluetooth scanning and connection.
+- **Camera**: Needed for barcode scanning.
+- **Bluetooth**: Needed for Bluetooth scanning and connections.
 - **Location**: May be required for WiFi and Bluetooth scanning on some platforms.
 
 ## Project Structure
@@ -53,8 +77,8 @@ A React Native mobile app built with Expo, providing utility tools such as Weath
 - `assets/` - Fonts and images
 
 ## Notes
-- Make sure to grant all required permissions for full functionality.
-- For Android, you may need to manually enable permissions in device settings.
+- Ensure all required permissions are granted for full functionality.
+- On Android, you may need to manually enable permissions in device settings.
 
 ## License
 MIT
