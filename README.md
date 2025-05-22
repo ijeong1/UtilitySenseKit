@@ -71,10 +71,68 @@ A React Native mobile app built with Expo, offering a suite of utility tools inc
 - **Bluetooth**: Needed for Bluetooth scanning and connections.
 - **Location**: May be required for WiFi and Bluetooth scanning on some platforms.
 
+## Environment Variables
+Create a `.env` file in the root of your project and add your weather API key like this:
+```.env
+EXPO_PUBLIC_WEATHER_API_KEY=your_api_key_here
+```
+Make sure to replace `your_api_key_here` with your actual API key.
+This key is required for accessing the weather API in the app.
+
 ## Project Structure
-- `app/` - Main app screens and navigation
-- `src/` - Components, hooks, services, and utilities
-- `assets/` - Fonts and images
+<pre> ```.
+├── app/
+│   ├── _layout.tsx              # Root layout (required by Expo Router)
+│   ├── index.tsx                # Redirects to the /weather screen by default
+│
+│   ├── barcode/
+│   │   ├── _layout.tsx          # Stack layout for barcode screens
+│   │   ├── index.tsx            # Barcode scanner screen
+│   │   └── history.tsx          # Barcode scan history screen
+│
+│   ├── bluetooth/
+│   │   ├── _layout.tsx          # Stack layout for Bluetooth-related screens
+│   │   └── index.tsx            # Bluetooth device scanner screen
+│
+│   ├── wifi/
+│   │   ├── _layout.tsx          # Stack layout for Wi-Fi screens
+│   │   └── index.tsx            # Wi-Fi network list screen
+│
+│   ├── weather/
+│   │   ├── _layout.tsx          # Stack layout for weather-related screens
+│   │   ├── index.tsx            # Weather search screen
+│   │   └── history.tsx          # Weather search history screen
+│
+├── src/
+│   ├── components/
+│   │   ├── navigation/
+│   │   │   └── TabBarIcon.tsx   # Custom icon for bottom tab bar
+│   │   └── weather/
+│   │       └── ForecastCard.tsx # UI component for weather forecast display
+│
+│   ├── config/
+│   │   └── api.ts               # API keys and base URL configuration
+│
+│   ├── constants/
+│   │   └── colors.ts            # App-wide color constants
+│
+│   ├── hooks/
+│   │   └── useHistory.ts        # Custom hook for managing barcode and weather history (uses AsyncStorage)
+│
+│   ├── services/
+│   │   └── weatherService.ts    # Axios-based module for fetching weather data
+│
+│   ├── types/
+│   │   ├── BarcodeHistoryItem.ts
+│   │   ├── ForecastItem.ts
+│   │   ├── SearchHistoryItem.ts
+│   │   ├── WeatherData.ts
+│   │   └── WeatherHistoryItem.ts
+│   │                               # TypeScript types for better structure and IntelliSense
+│
+│   └── utils/
+│       └── permissions.ts       # Utility functions for handling platform permissions
+ ``` </pre>
 
 ## Notes
 - Ensure all required permissions are granted for full functionality.
