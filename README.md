@@ -97,6 +97,7 @@ This key is required for accessing the weather API in the app.
 │   ├── wifi/
 │   │   ├── _layout.tsx          # Stack layout for Wi-Fi screens
 │   │   └── index.tsx            # Wi-Fi network list screen
+│   │   └── detail.tsx            # Wi-Fi detail screen
 │
 │   ├── weather/
 │   │   ├── _layout.tsx          # Stack layout for weather-related screens

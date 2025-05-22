@@ -5,8 +5,10 @@ import {
     ActivityIndicator, TouchableOpacity, Modal, Linking
 } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
+import { useRouter } from 'expo-router';
 
 export default function WifiConnectionScreen() {
+    const router = useRouter();
     const [scannedNetworks, setScannedNetworks] = useState<any[]>([]);
     const [currentSSID, setCurrentSSID] = useState<string | null>(null);
     const [isScanning, setIsScanning] = useState<boolean>(false);
@@ -56,7 +58,7 @@ export default function WifiConnectionScreen() {
             }
         }
     };
-
+        
     const scanWifiNetworks = useCallback(async () => {
         setIsScanning(true);
         try {
@@ -81,6 +83,25 @@ export default function WifiConnectionScreen() {
         }
     };
 
+    async function getWifiInfoAndNavigate(isProtected:boolean, ssid:string) {
+        try {
+            const frequency = await WifiManager.getCurrentSignalStrength();
+            const bssid = await WifiManager.getBSSID();
+            
+            router.push({
+                pathname: '/wifi/detail',
+                params: {
+                    ssid: ssid,
+                    isProtected: isProtected ? 'true' : 'false',
+                    frequency: frequency?.toString() || '',
+                    bssid: bssid || '',
+                },
+            });
+        } catch (error) {
+            console.error('Error getting WiFi info:', error);
+        }
+    }
+
     const connectToWifi = useCallback(async (ssid: string, isProtected: boolean, password: string = '') => {
         try {
             if (isProtected) {
@@ -90,6 +111,7 @@ export default function WifiConnectionScreen() {
             }
             Alert.alert('Connection Successful', `Connected to '${ssid}'.`);
             getCurrentConnectedSSID();
+            getWifiInfoAndNavigate(isProtected, ssid);
         } catch (connectError: any) {
             Alert.alert('Connection Failed', `Error during Wi-Fi connection: ${connectError.message || 'Unknown error'}`);
         }
