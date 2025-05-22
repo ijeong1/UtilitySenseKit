@@ -80,7 +80,7 @@ Make sure to replace `your_api_key_here` with your actual API key.
 This key is required for accessing the weather API in the app.
 
 ## Project Structure
-<pre> ```.
+<pre>.
 ├── app/
 │   ├── _layout.tsx              # Root layout (required by Expo Router)
 │   ├── index.tsx                # Redirects to the /weather screen by default
@@ -133,7 +133,7 @@ This key is required for accessing the weather API in the app.
 │
 │   └── utils/
 │       └── permissions.ts       # Utility functions for handling platform permissions
- ``` </pre>
+ </pre>
 
 ## Notes
 - Ensure all required permissions are granted for full functionality.
