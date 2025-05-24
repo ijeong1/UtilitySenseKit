@@ -131,7 +131,7 @@ export default function WifiConnectionScreen() {
                 connectToWifi(ssid, isProtected);
             }
         }
-        // iOS: no list interaction allowed, do nothing
+        // For iOS, we cannot connect directly, so we just navigate to details
     };
 
     return (
