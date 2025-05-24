@@ -70,6 +70,77 @@ A React Native mobile app built with Expo, offering a suite of utility tools inc
 - **Camera**: Needed for barcode scanning.
 - **Bluetooth**: Needed for Bluetooth scanning and connections.
 - **Location**: May be required for WiFi and Bluetooth scanning on some platforms.
+## Platform Specific Permissions
+
+Here's a breakdown of permissions required by UtilitySenseKit on each platform, along with the relevant code files:
+
+### Android
+
+-   **Camera**: Essential for scanning barcodes using `react-native-camera-kit`.
+    *   Relevant file: `app/barcode/index.tsx`
+-   **Bluetooth**: Required for scanning and connecting to Bluetooth devices via `react-native-ble-plx`.
+    *   Relevant file: `app/bluetooth/index.tsx`
+-   **Location**: Needed for scanning nearby WiFi networks and Bluetooth devices.  Location permission might require precise location permission depending on the Android version.
+    *   Relevant file: `app/wifi/index.tsx`, `app/bluetooth/index.tsx`
+    *   Permission check utility: `src/utils/permissions.ts`
+    ### Android Manifest Permissions
+
+    Below is a list of permissions that you might need to add to your `AndroidManifest.xml` file, depending on the features you intend to use:
+
+    ```xml
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    ```
+
+    **Note**:
+    - The `BLUETOOTH_SCAN` and `BLUETOOTH_CONNECT` permissions are required for Bluetooth functionality on Android 12 and higher.
+    - Location permissions (`ACCESS_FINE_LOCATION` and `ACCESS_COARSE_LOCATION`) may be necessary for Bluetooth and Wi-Fi scanning, depending on the Android version.
+    - Ensure that you request these permissions at runtime using a library like `expo-permissions` or `react-native-permissions`.
+### iOS
+
+-   **Camera**: Necessary for barcode scanning functionality.
+    *   Relevant file: `app/barcode/index.tsx`
+-   **Bluetooth**: Required to discover and connect to Bluetooth devices. The app will request permission to use Bluetooth. Uses `react-native-ble-plx`.
+    *   Relevant file: `app/bluetooth/index.tsx`
+-   **Location**: Needed for scanning nearby WiFi networks and Bluetooth devices.
+    *   Relevant file: `app/wifi/index.tsx`, `app/bluetooth/index.tsx`
+    *   Permission check utility: `src/utils/permissions.ts`
+
+    ### Info.plist Permissions
+
+    To configure the necessary permissions on iOS, you need to add specific keys to your `Info.plist` file. Here’s what you need to add:
+
+    ```xml
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs access to your camera to scan barcodes.</string>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>This app needs access to Bluetooth to scan and connect to Bluetooth devices.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>This app needs access to Bluetooth to scan and connect to Bluetooth devices.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to your location to scan for nearby Wi-Fi networks and Bluetooth devices.</string>
+    ```
+
+    **Explanation**:
+
+    -   `NSCameraUsageDescription`: Describes why the app needs access to the camera.
+    -   `NSBluetoothAlwaysUsageDescription`: Describes why the app needs access to Bluetooth.
+    -   `NSBluetoothPeripheralUsageDescription`: Describes why the app needs to access Bluetooth.
+    -   `NSLocationWhenInUseUsageDescription`: Describes why the app needs access to the user's location when the app is in use.
+
+    **How to Add**:
+
+    1.  Open your project in Xcode.
+    2.  Locate the `Info.plist` file in the project navigator.
+    3.  Right-click and select "Open As" > "Source Code".
+    4.  Add the above XML snippet inside the `<dict>` element.
+    5.  Modify the description strings to accurately reflect why your app needs these permissions.
+
 
 ## Environment Variables
 Create a `.env` file in the root of your project and add your weather API key like this:

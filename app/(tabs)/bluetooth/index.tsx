@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,6 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import { BleManager, Device, Service, Characteristic } from 'react-native-ble-plx';
-import { request, PERMISSIONS, RESULTS, openSettings } from 'react-native-permissions';
 
 const manager = new BleManager();
 
@@ -43,60 +42,49 @@ const BluetoothScreen = () => {
         return false;
       }
     } else {
-      const location = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
-      const bluetooth = await request(PERMISSIONS.IOS.BLUETOOTH);
-      const ios13OrLater = (typeof Platform.Version === 'string' ? parseInt(Platform.Version, 10) : Platform.Version) >= 13;
-      if (
-        location !== RESULTS.GRANTED ||
-        (ios13OrLater && bluetooth !== RESULTS.GRANTED)
-      ) {
-        Alert.alert(
-          'Permissions Needed',
-          'We need Bluetooth and Location permissions. Please enable them in Settings.',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Open Settings', onPress: () => { openSettings(); } },
-          ]
-        );
-        return false;
-      }
+      // On iOS, setting the required keys in Info.plist is enough to trigger the BLE permission prompt automatically
     }
     return true;
   };
 
+  const scanningRef = useRef(false);
   const startScan = async () => {
-    const permissionGranted = await requestPermissions();
-    if (!permissionGranted) return;
+  const permissionGranted = await requestPermissions();
+  if (!permissionGranted) return;
 
-    setDevices([]);
-    setScanning(true);
+  setDevices([]);
+  setScanning(true);
+  scanningRef.current = true;
 
-    manager.startDeviceScan(null, null, (error, device) => {
-      if (error) {
-        Alert.alert('Scan error', error.message);
-        setScanning(false);
-        return;
-      }
-      if (device) {
-        setDevices(prev => {
-          if (prev.find(d => d.id === device.id)) return prev;
-          const newList = [...prev, device];
-          if (newList.length >= 20) {
-            manager.stopDeviceScan();
-            setScanning(false);
-          }
-          return newList;
-        });
-      }
-    });
+  manager.startDeviceScan(null, null, (error, device) => {
+    if (error) {
+      Alert.alert('Scan error', error.message);
+      setScanning(false);
+      scanningRef.current = false;
+      return;
+    }
+    if (device) {
+      setDevices(prev => {
+        if (prev.find(d => d.id === device.id)) return prev;
+        const newList = [...prev, device];
+        if (newList.length >= 20) {
+          manager.stopDeviceScan();
+          setScanning(false);
+          scanningRef.current = false;
+        }
+        return newList;
+      });
+    }
+  });
 
-    setTimeout(() => {
-      if (scanning) {
-        manager.stopDeviceScan();
-        setScanning(false);
-      }
-    }, 10000);
-  };
+  setTimeout(() => {
+    if (scanningRef.current) {
+      manager.stopDeviceScan();
+      setScanning(false);
+      scanningRef.current = false;
+    }
+  }, 10000);
+};
 
   const connectToDevice = async (device: Device) => {
     setScanning(false);

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import {
     View, Text, StyleSheet, Button, Alert, TextInput,
     ScrollView, Platform, PermissionsAndroid,
-    ActivityIndicator, TouchableOpacity, Modal, Linking
+    ActivityIndicator, TouchableOpacity, Modal,
 } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
 import { useRouter } from 'expo-router';
@@ -58,7 +58,7 @@ export default function WifiConnectionScreen() {
             }
         }
     };
-        
+
     const scanWifiNetworks = useCallback(async () => {
         setIsScanning(true);
         try {
@@ -87,7 +87,7 @@ export default function WifiConnectionScreen() {
         try {
             const frequency = await WifiManager.getCurrentSignalStrength();
             const bssid = await WifiManager.getBSSID();
-            
+
             router.push({
                 pathname: '/wifi/detail',
                 params: {
@@ -122,17 +122,21 @@ export default function WifiConnectionScreen() {
     };
 
     const handleNetworkPress = (ssid: string, isProtected: boolean) => {
-        if (isProtected && Platform.OS === 'android') {
-            setSelectedSSID(ssid);
-            setPassword('');
-            setShowPasswordModal(true);
-        } else {
-            connectToWifi(ssid, isProtected);
+        if (Platform.OS === 'android') {
+            if (isProtected) {
+                setSelectedSSID(ssid);
+                setPassword('');
+                setShowPasswordModal(true);
+            } else {
+                connectToWifi(ssid, isProtected);
+            }
         }
+        // iOS: no list interaction allowed, do nothing
     };
 
     return (
         <View style={styles.container}>
+
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Current Connection:</Text>
                 <Text style={styles.infoText}>
@@ -141,66 +145,68 @@ export default function WifiConnectionScreen() {
                 <Button title="Refresh Current SSID" onPress={getCurrentConnectedSSID} />
             </View>
 
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Available Networks:</Text>
-                <Button title="Scan for Networks" onPress={scanWifiNetworks} disabled={isScanning} />
-                {isScanning && <ActivityIndicator size="small" color="#0000ff" style={{ marginTop: 10 }} />}
-                <ScrollView style={styles.networkList}>
-                    {scannedNetworks.length > 0 ? (
-                        scannedNetworks.map((network, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={styles.networkItem}
-                                onPress={() => handleNetworkPress(network.ssid, isNetworkProtected(network.capabilities))}
-                            >
-                                <Text style={styles.networkName}>{network.ssid}</Text>
-                                <Text style={styles.networkSecurity}>
-                                    {isNetworkProtected(network.capabilities) ? 'Protected' : 'Open'}
-                                </Text>
-                            </TouchableOpacity>
-                        ))
-                    ) : (
-                        <Text style={styles.infoText}>No networks found. Tap "Scan for Networks".</Text>
-                    )}
-                </ScrollView>
-            </View>
+            {Platform.OS === 'android' ? (
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Available Networks:</Text>
+                    <Button title="Scan for Networks" onPress={scanWifiNetworks} disabled={isScanning} />
+                    {isScanning && <ActivityIndicator size="small" color="#0000ff" style={{ marginTop: 10 }} />}
+                    <ScrollView style={styles.networkList}>
+                        {scannedNetworks.length > 0 ? (
+                            scannedNetworks.map((network, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={styles.networkItem}
+                                    onPress={() => handleNetworkPress(network.ssid, isNetworkProtected(network.capabilities))}
+                                >
+                                    <Text style={styles.networkName}>{network.ssid}</Text>
+                                    <Text style={styles.networkSecurity}>
+                                        {isNetworkProtected(network.capabilities) ? 'Protected' : 'Open'}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))
+                        ) : (
+                            <Text style={styles.infoText}>No networks found. Tap "Scan for Networks".</Text>
+                        )}
+                    </ScrollView>
+                </View>
+            ) : (
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>Wi-Fi Scanning</Text>
+                    <Text style={styles.infoText}>
+                        Wi-Fi scanning is not supported on iOS due to Apple policy.
+                    </Text>
+                    <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Current SSID:</Text>
+                    <Text style={styles.infoText}>{currentSSID || 'Unavailable'}</Text>
+                </View>
+            )}
 
-            <Button
-                title="Open Wi-Fi Settings"
-                onPress={() => {
-                    if (Platform.OS === 'android') {
-                        Linking.openSettings();
-                    } else {
-                        Alert.alert('Not Supported', 'Opening Wi-Fi settings is only supported on Android.');
-                    }
-                }}
-            />
-
-            {/* Password Modal */}
-            <Modal visible={showPasswordModal} transparent animationType="slide">
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Enter Password for "{selectedSSID}"</Text>
-                        <TextInput
-                            value={password}
-                            onChangeText={setPassword}
-                            placeholder="Password"
-                            secureTextEntry
-                            style={[styles.input, { color: '#000' }]}
-                        />
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Button title="Cancel" onPress={() => setShowPasswordModal(false)} />
-                            <Button
-                                title="Connect"
-                                onPress={() => {
-                                    setShowPasswordModal(false);
-                                    connectToWifi(selectedSSID, true, password);
-                                }}
+            {/* Password Modal - Android only */}
+            {Platform.OS === 'android' && (
+                <Modal visible={showPasswordModal} transparent animationType="slide">
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>Enter Password for "{selectedSSID}"</Text>
+                            <TextInput
+                                value={password}
+                                onChangeText={setPassword}
+                                placeholder="Password"
+                                secureTextEntry
+                                style={[styles.input, { color: '#000' }]}
                             />
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Button title="Cancel" onPress={() => setShowPasswordModal(false)} />
+                                <Button
+                                    title="Connect"
+                                    onPress={() => {
+                                        setShowPasswordModal(false);
+                                        connectToWifi(selectedSSID, true, password);
+                                    }}
+                                />
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
+            )}
         </View>
     );
 };

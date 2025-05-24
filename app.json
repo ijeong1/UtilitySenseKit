@@ -15,14 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.UtilitySenseKit",
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Your app needs access to your location to scan for Wi-Fi and Bluetooth devices.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Your app needs access to your location to scan for Wi-Fi and Bluetooth devices in the background.",
-        "NSBluetoothAlwaysUsageDescription": "Your app needs Bluetooth access to scan for and connect to devices.",
-        "NSBluetoothPeripheralUsageDescription": "Your app needs Bluetooth access to scan for and connect to devices.",
-        "NSCameraUsageDescription": "Your app needs camera access to scan barcodes."
-      }
+      "bundleIdentifier": "com.anonymous.UtilitySenseKit"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,22 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.UtilitySenseKit",
-      "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION",
-        "ACCESS_WIFI_STATE",
-        "CHANGE_WIFI_STATE",
-        "CHANGE_NETWORK_STATE",
-        "BLUETOOTH",
-        "BLUETOOTH_ADMIN",
-        "BLUETOOTH_SCAN",
-        "BLUETOOTH_CONNECT",
-        "BLUETOOTH_ADVERTISE",
-        "NEARBY_WIFI_DEVICES",
-        "CAMERA"
-      ]
+      "package": "com.anonymous.UtilitySenseKit"
     },
     "web": {
       "bundler": "metro",
@@ -57,6 +35,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a2384efb-ecf9-4acd-86b0-2ea3254c3e50"
+      }
+    },
+    "owner": "ijeong1"
   }
 }

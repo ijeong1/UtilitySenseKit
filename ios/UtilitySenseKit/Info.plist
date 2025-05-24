@@ -76,6 +76,12 @@
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
 
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to scan barcodes.</string>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>For saving photos</string>
+
     <key>NSBluetoothAlwaysUsageDescription</key>
     <string>This app uses Bluetooth to connect to devices.</string>
 
@@ -93,5 +99,8 @@
 
     <key>com.apple.developer.networking.wifi-info</key>
     <true/>
+
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>This app uses Bluetooth to connect to devices.</string>
   </dict>
 </plist>
