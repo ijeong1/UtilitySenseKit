@@ -212,8 +212,8 @@ This key is required for accessing the weather API in the app.
 
 ## Demo
 - Android
-![til]([./app/assets/images/banner.png]([https://github.com/ijeong1/UtilitySenseKit/blob/main/AppDemo_Android.gif](https://github.com/ijeong1/UtilitySenseKit/blob/main/AppDemo_Android.gif?raw=true)))
+![til]([./app/assets/images/banner.png](https://raw.githubusercontent.com/ijeong1/UtilitySenseKit/refs/heads/main/AppDemo_Android.gif))
 - iOS
-![til]([./app/assets/images/banner.png]([https://github.com/ijeong1/UtilitySenseKit/blob/main/AppDemo_iOS.gif](https://github.com/ijeong1/UtilitySenseKit/blob/main/AppDemo_Android.gif?raw=true)))
+![til]([./app/assets/images/banner.png](https://raw.githubusercontent.com/ijeong1/UtilitySenseKit/refs/heads/main/AppDemo_iOS.gif))
 ## License
 MIT
