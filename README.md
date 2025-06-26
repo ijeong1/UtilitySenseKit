@@ -210,5 +210,10 @@ This key is required for accessing the weather API in the app.
 - Ensure all required permissions are granted for full functionality.
 - On Android, you may need to manually enable permissions in device settings.
 
+## Demo
+- Android
+![til]([./app/assets/images/banner.png](https://github.com/ijeong1/UtilitySenseKit/blob/main/AppDemo_Android.gif))
+- iOS
+![til]([./app/assets/images/banner.png](https://github.com/ijeong1/UtilitySenseKit/blob/main/AppDemo_iOS.gif))
 ## License
 MIT
